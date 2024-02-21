@@ -1,38 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
-
-const feeds = [
-  {
-    id: '1', feedImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg_4qTecYyAS3Le7wSQWgrJoMCHMUVBhSn1B1JxQCBJ7NTeQKMF9IlopklR-24QLFRN00&usqp=CAU'
-    , likeCount: '1000', title: 'Your Story', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg'
-  },
-  {
-    id: '2', feedImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsOAbM2VsbmRfH4Tg-OyeD3S5NksaZR5ne_KaWnh1UCOrVStwlnQoOc5mOFppNvKC_I-w&usqp=CAU'
-    , likeCount: '2200', title: 'Hari Lee', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg'
-  },
-  {
-    id: '3', feedImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfV2kpHYP5tVGmqp-345N_uVlfHMhFvn3V1g&usqp=CAU'
-    , likeCount: '550', title: 'Joey', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg'
-  },
-  {
-    id: '6', feedImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_rEzB5BFKqhkxgnb5opU-zHcvelKkhditpQ&usqp=CAU'
-    , likeCount: '4893', title: 'Changler Bing', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg'
-  },
-  {
-    id: '4', feedImage: 'https://previews.123rf.com/images/studiostoks/studiostoks1801/studiostoks180100194/94512492-astronaut-breaks-the-wall-leadership-and-determination-pop-art-retro-comic-book-vector-cartoon.jpg'
-    , likeCount: '12567', title: 'Monica Geller', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg'
-  },
-  {
-    id: '5', feedImage: 'https://www.bigsmall.in/cdn/shop/articles/4435917.jpg?v=1604671099&width=1600'
-    , likeCount: '8900', title: 'Ross', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg'
-  },
-  {
-    id: '7', feedImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg_4qTecYyAS3Le7wSQWgrJoMCHMUVBhSn1B1JxQCBJ7NTeQKMF9IlopklR-24QLFRN00&usqp=CAU'
-    , likeCount: '4589', title: 'Rach', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg'
-  },
-
-  // Add more feeds here
-];
+import { getFeedsAPI } from "../network/ApiHook";
 
 type ItemProps = {imageUrl: string, title: string, feedImage: string, likeCount: string};
 
@@ -57,11 +25,28 @@ const Item = ({imageUrl, title, feedImage, likeCount}: ItemProps) => (
 );
 
 const Feeds = () => {
+  const [feedList, setFeedList] = useState<any[]>([]);
+
+  useEffect(() => {
+    console.log('effect activated');
+    const getFeeds = async () => {
+      try {
+        const {contentResp, errorMessage} = await getFeedsAPI(
+          'v1/a2608b7c-9e93-4233-b8d5-fd5e0995a243',
+        );
+        setFeedList(contentResp);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    getFeeds();
+  }, []);
+  
   return (
     <View>
       <FlatList
           horizontal={false}
-          data={feeds}
+          data={feedList}
           renderItem={({item}) => <Item imageUrl={item.imageUrl} title={item.title} feedImage={item.feedImage} likeCount={item.likeCount} />}
           keyExtractor={item => item.id}
           />

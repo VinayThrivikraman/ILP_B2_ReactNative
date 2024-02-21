@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { getFeedsAPI } from "../network/ApiHook";
 
 type ItemProps = {title: string, imageUrl: string};
 
@@ -10,27 +11,31 @@ const Item = ({title, imageUrl}: ItemProps) => (
     </View>
   );
 
-const stories = [
-{ id: '1', title: 'Your Story', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg' },
-{ id: '2', title: 'Hari Lee', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg' },
-{ id: '3', title: 'Joey', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg' },
-{ id: '6', title: 'Changler Bing', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg' },
-{ id: '4', title: 'Monica Geller', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg' },
-{ id: '5', title: 'Ross', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg' },
-{ id: '7', title: 'Rach', imageUrl: 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/S/amzn-author-media-prod/t2d5l07m4io8oc22mfsm86bves._SY450_CR0%2C0%2C450%2C450_.jpg' },
-
-// Add more stories here
-];
-
-
 const StoriesComponent = () => {
+
+    const [storiesList, setStoriesList] = useState<any[]>([]);
+    useEffect(() => {
+        console.log('effect activated');
+        const getStories = async () => {
+          try {
+            const {contentResp, errorMessage} = await getFeedsAPI(
+              'v1/e4cf6dd8-ac8c-472c-bcf0-62adf77b1f2a',
+            );
+            setStoriesList(contentResp);
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        };
+        getStories();
+      }, []);
+    
     return (
         <View style={styles.container}>
             <Text style={styles.storiesTitle}>Stories</Text>
             <FlatList
             horizontal={true}
             showsHorizontalScrollIndicator = {false}
-            data={stories}
+            data={storiesList}
             renderItem={({item}) => <Item title={item.title} imageUrl={item.imageUrl} />}
             keyExtractor={item => item.id}
             />
