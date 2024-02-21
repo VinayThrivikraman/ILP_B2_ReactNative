@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import ButtonComponent from '../component/Button';
 
 const LoginPage = () => {
 
-  const [text, onChangeText] = React.useState('');
-
-  const bodyText = 'Forgot Password?';
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
   return (
     <View>
       <SafeAreaView style={styles.mainContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeText}
-          value={text}
+          onChangeText={setEmail}
+          value={email}
           placeholder="E-Mail"
         />
         <TextInput
           style={styles.input}
-          onChangeText={onChangeText}
-          value={text}
+          onChangeText={setPassword}
+          value={password}
           placeholder="Password"
         />
       </SafeAreaView>
-        <Text style={styles.forgotPassword}>{bodyText}</Text>
+        <Text style={styles.forgotPassword}>Forgot Password?</Text>
         <ButtonComponent />
     </View>
   );
@@ -39,10 +38,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   input: {
-    height: 40,
+    height: 50,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     padding: 10,
+    borderRadius: 5,
+    borderColor: 'purple'
   },
   forgotPassword: {
     textAlign: 'center',

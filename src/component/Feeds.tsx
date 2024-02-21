@@ -72,7 +72,7 @@ const Feeds = () => {
 const styles = StyleSheet.create ({
   singleFeedContainer: {
     marginTop: 15,
-    marginLeft: 15,
+    marginLeft: 8,
     marginRight: 15,
   },
   profileContainer: {

@@ -1,10 +1,13 @@
 import React from "react";
-import LoginPage from './src/screens/Login'
-import InstagramHome from "./src/screens/InstagramHome";
+import { HomeStackNavigator } from "./src/navigation/AppNavigation";
+import { NavigationContainer } from "@react-navigation/native";
 
 const App = () => {
-  return <InstagramHome />;
-  // return <LoginPage/>;
+  return (
+    <NavigationContainer>
+      <HomeStackNavigator />
+    </NavigationContainer>
+  )
 };
 
 export default App;

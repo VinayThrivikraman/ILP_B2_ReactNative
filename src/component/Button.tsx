@@ -1,12 +1,16 @@
+import { useNavigation } from "@react-navigation/native";
 import React, {useState} from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const ButtonComponent = () => {
     const [count, setCount] = useState(0);
+    const navigation = useNavigation();
 
     const onPress = () => {
         setCount((prevCount: number) => prevCount + 1);
-        console.log('We are Here: '+ count)
+        console.log('We are Here: '+ count);
+        navigation.navigate("Instagram", {});
+
     }
 
     return (
@@ -20,15 +24,17 @@ const ButtonComponent = () => {
 const styles = StyleSheet.create({
     button: { //add border radius and 2 colours for button and text
         marginTop: 30,
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 30,
+        marginRight: 30,
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
-        padding: 10,
+        backgroundColor: 'purple',
+        padding: 12,
+        borderRadius: 5,
       },
       loginText: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
+        color: "white"
       }    
 })
 
