@@ -1,10 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const ButtonComponent = () => {
+    const [count, setCount] = useState(0);
+
+    const onPress = () => {
+        setCount((prevCount: number) => prevCount + 1);
+        console.log('We are Here: '+ count)
+    }
+
     return (
         <View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={onPress}>
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
         </View>
@@ -26,3 +33,4 @@ const styles = StyleSheet.create({
 })
 
 export default ButtonComponent
+
