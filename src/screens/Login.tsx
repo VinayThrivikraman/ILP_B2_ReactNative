@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, TextInput, View, Text, SafeAreaView } from 'react-native';
 import ButtonComponent from '../component/Button';
 
 const LoginPage = () => {

@@ -11,9 +11,9 @@ export async function getFeedsAPI(url: string): Promise<ContentResponse> {
   try {
     const contentResponse = await api.get(url);
     contentResp = contentResponse.data;
-    console.log(`Response for url ${url} is ${contentResp}`);
+    // console.log(`Response for url ${url} is ${contentResp}`);
   } catch (error: any) {
-    console.log('Error while logging in:', error);
+    // console.log('Error while logging in:', error);
     errorMessage = error.message;
   }
 
